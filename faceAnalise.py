@@ -46,11 +46,23 @@ def create_json_data(compare_result):
             json_data.append(perfil)
     return json_data;
 
+def publish_data(json_data):
+    file=s3.Object('site-tr','dados.json')
+    file.put(Body=json.dumps(json_data))
 
-faces_detected= detect_faces()
-print(json.dumps(faces_detected,indent=4))
-face_id_list=create_faceId_list(faces_detected)
-compare_result=compare_images(face_id_list)
-print(json.dumps(compare_result,indent=4))
-json_data=create_json_data(compare_result)
-print(json.dumps(json_data,indent=4))
+def delete_old_image(face_id_list):
+    client.delete_faces(
+        CollectionId='faces',
+        FaceIds=face_id_list
+    )
+
+def main(event,context):
+    faces_detected= detect_faces()
+    print(json.dumps(faces_detected,indent=4))
+    face_id_list=create_faceId_list(faces_detected)
+    compare_result=compare_images(face_id_list)
+    print(json.dumps(compare_result,indent=4))
+    json_data=create_json_data(compare_result)
+    print(json.dumps(json_data,indent=4))
+    publish_data(json_data)
+    delete_old_image(face_id_list)
