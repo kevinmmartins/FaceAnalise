@@ -37,8 +37,20 @@ def compare_images(faceId_detected):
         )
     return compare_result
 
+def create_json_data(compare_result):
+    json_data=[]
+    for face_matches in compare_result:
+        if(len(face_matches.get('FaceMatches'))) >=1:
+            perfil = dict(name=face_matches['FaceMatches'][0]['Face']['ExternalImageId'],
+                         faceMatch=round(face_matches['FaceMatches'][0]['Similarity'],2))
+            json_data.append(perfil)
+    return json_data;
+
+
 faces_detected= detect_faces()
 print(json.dumps(faces_detected,indent=4))
 face_id_list=create_faceId_list(faces_detected)
 compare_result=compare_images(face_id_list)
 print(json.dumps(compare_result,indent=4))
+json_data=create_json_data(compare_result)
+print(json.dumps(json_data,indent=4))
