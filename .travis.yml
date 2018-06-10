@@ -5,3 +5,5 @@ python:
 # command to install dependencies
 install:
   - pip install boto3
+  
+script: pytest -rxXs
