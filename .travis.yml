@@ -10,6 +10,7 @@ python:
   - "pypy3.5"
 # command to install dependencies
 install:
-  - pip install .
+  - pip install boto3
+  - pip install json
 # command to run tests
 script: pytest
