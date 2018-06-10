@@ -12,7 +12,7 @@ def list_images():
 
 def create_images_index_list(images):
     for imageV in images:
-        response=client.index_faces(
+        client.index_faces(
             CollectionId='faces',
             DetectionAttributes=[
             ],
