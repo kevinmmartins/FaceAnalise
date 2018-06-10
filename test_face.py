@@ -1,6 +1,8 @@
 import pytest
+from botocore.exceptions import NoRegionError
+
 import faceAnalise
 
-@pytest.fixture()
 def test_delete_old_message(self):
-    assert (faceAnalise.detect_faces() is not None)
+    with pytest.raises(NoRegionError):
+        faceAnalise.detect_faces()
